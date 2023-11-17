@@ -16,7 +16,7 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URL, {
      useNewUrlParser: true, useUnifiedTopology: true
     })
-    .then(() => console.log('Veri tabanına baglandı '))
+    .then(() => console.log('DB connected.'))
     .catch((err) => console.log(err));
 
 // Baraj rotalarını kullan
@@ -24,5 +24,5 @@ app.use('/api', barajRoutes);
 
 // Server'ı dinle
 app.listen(port, () => {
-  console.log(`Server ${port} portunda calisiyore`);
+  console.log(`Server is listening on ${port}.`);
 });
