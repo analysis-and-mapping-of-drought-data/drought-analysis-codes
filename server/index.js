@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const barajRoutes = require('./routes/Barajlar');
 const cors = require('cors');
-
 dotenv.config();
-
 const app = express();
 const port =3001;
 
@@ -16,7 +14,7 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URL, {
      useNewUrlParser: true, useUnifiedTopology: true
     })
-    .then(() => console.log('DB baglandi.'))
+    .then(() => console.log('DB connected...'))
     .catch((err) => console.log(err));
 
 // Baraj rotalarını kullan
