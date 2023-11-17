@@ -10,3 +10,8 @@
 - Projenin front-end başlatmak için **'GitHub\drought-analysis-codes\client>'** dosya uzantısına **'npm start'** yazarak başlatabilirsiniz.
 
 - Projenin front-end başlatmak için **'GitHub\drought-analysis-codes\server>'** dosya uzantısına **'npm start'** yazarak başlatabilirsiniz.
+
+### Trello & Drive Linkleri:
+
+- trello: https://trello.com/invite/b/Fh527XkD/ATTI09301e01acdbeb9bb1f10e2e6ead497bDC66BBB4/vtys-proje
+- drive: https://drive.google.com/drive/folders/1DL_77seedbZOZ84DaVA-Lk81zngohAgR?usp=sharing
