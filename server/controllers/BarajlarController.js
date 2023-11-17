@@ -1,4 +1,4 @@
-const Baraj=require('../models/Baraj')
+const Baraj=require('../models/BarajModel')
 
 exports.getBarajlar=async(req,res)=>{
     try{
