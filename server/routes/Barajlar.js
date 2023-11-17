@@ -1,7 +1,7 @@
 const express=require('express')
 const router =express.Router();
 
-const barajController=require('../controllers/BarajController');
+const barajController=require('../controllers/BarajlarController');
 
 // Tüm barajları getir
 router.get('/barajlar', barajController.getBarajlar);
