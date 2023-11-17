@@ -10,7 +10,7 @@ const port =3001;
 app.use(cors());
 app.use(express.json());
 
-// MongoDB'ye bağlan
+// MongoDB'ye bağlanma
 mongoose.connect(process.env.MONGO_URL, {
      useNewUrlParser: true, useUnifiedTopology: true
     })
