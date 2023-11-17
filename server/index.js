@@ -14,7 +14,7 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URL, {
      useNewUrlParser: true, useUnifiedTopology: true
     })
-    .then(() => console.log('DB connected...'))
+    .then(() => console.log('DB baglandi '))
     .catch((err) => console.log(err));
 
 // Baraj rotalarını kullan
