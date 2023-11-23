@@ -1,99 +1,52 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Header(){
+function Header() {
+  const navLinkStyle = {
+    textDecoration: "none",
+  };
 
-    return (
-        <div>
-            {/* Navbar Start */}
-  <nav className="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
-    <a href="index.html" className="navbar-brand d-flex d-lg-none me-4">
-      <h2 className="text-primary mb-0"><i className="fa fa-user-edit" /></h2>
-    </a>
-    <a href="#" className="sidebar-toggler flex-shrink-0">
-      <i className="fa fa-bars" />
-    </a>
-    <form className="d-none d-md-flex ms-4">
-      <input className="form-control bg-dark border-0" type="search" placeholder="Search" />
-    </form>
-    <div className="navbar-nav align-items-center ms-auto">
-      <div className="nav-item dropdown">
-        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-          <i className="fa fa-envelope me-lg-2" />
-          <span className="d-none d-lg-inline-flex">Message</span>
-        </a>
-        <div className="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-          <a href="#" className="dropdown-item">
-            <div className="d-flex align-items-center">
-              <img className="rounded-circle" src="img/user.jpg" alt style={{width: 40, height: 40}} />
-              <div className="ms-2">
-                <h6 className="fw-normal mb-0">Jhon send you a message</h6>
-                <small>15 minutes ago</small>
+  return (
+    <div>
+      {/* Navbar Start */}
+      <nav className="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+        <Link to="/" className="navbar-brand mx-auto" style={navLinkStyle}>
+          <div className="rounded-pill p-2 border border-secondary">
+            <span className="bi bi-house-door text-primary me-2"></span>
+            <span className="text-primary">Home</span>
+          </div>
+        </Link>
+
+        <Link to="/baraj" className="navbar-brand mx-auto" style={navLinkStyle}>
+          <div className="rounded-pill p-2 border border-secondary">
+            <span className="bi bi-droplet text-primary me-2"></span>
+            <span className="text-primary">Baraj</span>
+          </div>
+        </Link>
+
+        <Link to="/sulama" className="navbar-brand mx-auto" style={navLinkStyle}>
+          <div className="rounded-pill p-2 border border-secondary">
+            <span className="bi bi-irrigation text-primary me-2"></span>
+            <span className="text-primary">Sulama Verileri</span>
+          </div>
+        </Link>
+
+        
+          
+
+          <div className="nav-item">
+            <div className="rounded-pill  p-2 d-flex align-items-center text-danger border border-danger">
+              <div className="rounded-circle overflow-hidden me-2">
+                <img className="rounded-circle" src="img/sirket.jpg" alt="" style={{ width: 40, height: 40 }} />
               </div>
+              <span className="d-none d-lg-inline-flex">ISS</span>
             </div>
-          </a>
-          <hr className="dropdown-divider" />
-          <a href="#" className="dropdown-item">
-            <div className="d-flex align-items-center">
-              <img className="rounded-circle" src="img/user.jpg" alt style={{width: 40, height: 40}} />
-              <div className="ms-2">
-                <h6 className="fw-normal mb-0">Jhon send you a message</h6>
-                <small>15 minutes ago</small>
-              </div>
-            </div>
-          </a>
-          <hr className="dropdown-divider" />
-          <a href="#" className="dropdown-item">
-            <div className="d-flex align-items-center">
-              <img className="rounded-circle" src="img/user.jpg" alt style={{width: 40, height: 40}} />
-              <div className="ms-2">
-                <h6 className="fw-normal mb-0">Jhon send you a message</h6>
-                <small>15 minutes ago</small>
-              </div>
-            </div>
-          </a>
-          <hr className="dropdown-divider" />
-          <a href="#" className="dropdown-item text-center">See all message</a>
-        </div>
-      </div>
-      <div className="nav-item dropdown">
-        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-          <i className="fa fa-bell me-lg-2" />
-          <span className="d-none d-lg-inline-flex">Notificatin</span>
-        </a>
-        <div className="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-          <a href="#" className="dropdown-item">
-            <h6 className="fw-normal mb-0">Profile updated</h6>
-            <small>15 minutes ago</small>
-          </a>
-          <hr className="dropdown-divider" />
-          <a href="#" className="dropdown-item">
-            <h6 className="fw-normal mb-0">New user added</h6>
-            <small>15 minutes ago</small>
-          </a>
-          <hr className="dropdown-divider" />
-          <a href="#" className="dropdown-item">
-            <h6 className="fw-normal mb-0">Password changed</h6>
-            <small>15 minutes ago</small>
-          </a>
-          <hr className="dropdown-divider" />
-          <a href="#" className="dropdown-item text-center">See all notifications</a>
-        </div>
-      </div>
-      <div className="nav-item dropdown">
-        <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-          <img className="rounded-circle me-lg-2" src="img/user.jpg" alt style={{width: 40, height: 40}} />
-          <span className="d-none d-lg-inline-flex">John Doe</span>
-        </a>
-        <div className="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-          <a href="#" className="dropdown-item">My Profile</a>
-          <a href="#" className="dropdown-item">Settings</a>
-          <a href="#" className="dropdown-item">Log Out</a>
-        </div>
-      </div>
+          </div>
+        
+      </nav>
+      {/* Navbar End */}
     </div>
-  </nav>
-  {/* Navbar End */}
-        </div>
-    )
+  );
 }
-export default Header
+
+export default Header;

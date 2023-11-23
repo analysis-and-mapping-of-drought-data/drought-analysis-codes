@@ -3,25 +3,24 @@ import React from "react";
 function Footer(){
 
     return (
-        <div>
-            {/* Footer Start */}
-<div className="container-fluid pt-4 px-4">
-  <div className="bg-secondary rounded-top p-4">
-    <div className="row">
-      <div className="col-12 col-sm-6 text-center text-sm-start">
-        © <a href="#">Your Site Name</a>, All Right Reserved. 
-      </div>
-      <div className="col-12 col-sm-6 text-center text-sm-end">
-        {/*/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. *** /*/}
-        Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-        <br />Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-      </div>
-    </div>
-  </div>
-</div>
-{/* Footer End */}
-
+      <div>
+      {/* Footer Start */}
+      <div className="container-fluid pt-2 px-2 fixed-bottom" style={{ maxWidth: '80%' }}>
+        <div className="bg-secondary rounded-top p-2">
+          <div className="row">
+            <div className="col-12 col-sm-6 text-center text-sm-start">
+              © <a href="#">Baraj ve sulama verileri </a>, Bu sitenin bütün hakları saklıdır ... 
+            </div>
+            <div className="col-12 col-sm-6 text-center text-sm-end">
+              Tasarım: <a>Berat Kurtaran </a>
+              <br />ISS Ekibi
+            </div>
+          </div>
         </div>
+      </div>
+      {/* Footer End */}
+    </div>
+    
     )
 }
 export default Footer
