@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB şeması oluştur
-const BarajSchema = new mongoose.Schema({
+const SulamaSchema = new mongoose.Schema({
   il:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Il',
@@ -18,21 +18,37 @@ const BarajSchema = new mongoose.Schema({
     require:true,
     max:81,
   },
-  baraj_adi:{
-    type:String,
-    require:true,
-  },
-  oran:{
+  kuyu:{
     type:Number,
     require:true,
   },
-  yil:{
-    type:Date,
+  kaynak:{
+    type:Number,
+    require:true,
+  },
+  akarsu:{
+    type:Number,
+    require:true,
+  },
+  gol:{
+    type:Number,
+    require:true,
+  },
+  golet:{
+    type:Number,
+    require:true,
+  },
+  baraj:{
+    type:Number,
+    require:true,
+  },
+  diger:{
+    type:Number,
     require:true,
   }
 },{timestamps:true})
 
 // Model oluştur
-const BarajModel  = mongoose.model('Baraj', BarajSchema);
+const SulamaModel  = mongoose.model('Sulama', SulamaSchema);
  
-module.exports = BarajModel;
+module.exports = SulamaModel;

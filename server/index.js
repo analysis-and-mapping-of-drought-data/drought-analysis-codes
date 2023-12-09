@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const barajRoutes = require('./routes/Barajlar');
+const ilRoutes = require('./routes/Iller');
 const cors = require('cors');
 dotenv.config();
 const app = express();
@@ -18,7 +19,8 @@ mongoose.connect(process.env.MONGO_URL, {
     .catch((err) => console.log(err));
 
 // Baraj rotalarını kullan
-app.use('/api', barajRoutes);
+app.use('/baraj', barajRoutes);
+app.use('/il', ilRoutes);
 
 // Server'ı dinle
 app.listen(port, () => {
