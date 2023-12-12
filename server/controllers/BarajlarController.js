@@ -17,7 +17,7 @@ exports.getBarajlarWithId=async(req,res)=>{
         }
         res.status(200).json(baraj);
     }catch (error) {
-        res.status(400).json({ hata: error.message });
+        res.status(500).json({ hata: error.message });
     }
 };
 
@@ -29,9 +29,39 @@ exports.getBarajlarWithIlId=async(req,res)=>{
         }
         res.status(200).json(barajlar);
     }catch (error) {
-        res.status(400).json({ hata: error.message });
+        res.status(500).json({ hata: error.message });
     }
 };
+
+exports.getBarajlarWithYear = async (req, res) => {
+    try {
+        const barajlar = await Baraj.find().populate({ path: 'il', select: 'il_adi' });
+        
+        const grupVeri = [];
+        const gruplandirilmisVeri = {};
+
+        barajlar.forEach(veriOge => {
+            const { baraj_adi, yil, oran } = veriOge;
+
+            if (!gruplandirilmisVeri[baraj_adi]) {
+                gruplandirilmisVeri[baraj_adi] = { baraj_adi };
+            }
+
+            const yilKey = (new Date(yil)).getFullYear().toString();
+            gruplandirilmisVeri[baraj_adi]["yil_" + yilKey] = oran;
+        });
+
+        for (const dam in gruplandirilmisVeri) {
+            grupVeri.push(gruplandirilmisVeri[dam]);
+        }
+
+        res.status(200).json(grupVeri);
+    } catch (error) {
+        res.status(500).json({ hata: error.message });
+    }
+}
+
+
 
 exports.barajEkle=async(req,res)=>{
     try{
