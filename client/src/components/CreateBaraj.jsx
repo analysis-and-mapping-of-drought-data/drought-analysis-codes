@@ -23,7 +23,7 @@ function CreateBaraj(){
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:3001/api/barajlar', {name, il,yil_2010,yil_2011,yil_2012,yil_2013,
+        axios.post('http://localhost:3001/baraj', {name, il,yil_2010,yil_2011,yil_2012,yil_2013,
         yil_2014,yil_2015,yil_2016,yil_2017,yil_2018,yil_2019,yil_2020,yil_2021})
         .then(res => {
             console.log(res);

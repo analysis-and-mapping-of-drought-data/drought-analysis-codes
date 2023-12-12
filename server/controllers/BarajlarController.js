@@ -77,3 +77,14 @@ exports.barajSil=async (req,res)=>{
         req.status(400).json({hata:error.message});
     }
 };
+
+exports.getAllBarajlar = async (req, res) => 
+{
+    try {
+      const barajlar = await Baraj.find();
+      res.status(200).json(barajlar);
+    } catch (error) {
+      res.status(500).json({ error_message: error.message });
+    }
+};
+  

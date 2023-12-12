@@ -3,6 +3,8 @@ const router =express.Router();
 
 const barajController=require('../controllers/BarajlarController');
 
+
+router.get('/', barajController.getAllBarajlar);
 // Tüm barajları getir
 router.get('/', barajController.getBarajlar);
 

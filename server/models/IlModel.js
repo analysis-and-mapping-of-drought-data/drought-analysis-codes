@@ -1,27 +1,21 @@
-const express = require('express');
 const mongoose = require('mongoose');
-const app = express();
-
-// JSON verilerini işlemek için middleware'leri eklendi
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 const IlSchema = new mongoose.Schema({
-    plaka:{
-        type:Number,
-        require:true,
-        max:81,
+    plaka: {
+        type: Number,
+        required: true,
+        max: 81,
     },
-    il_adi:{
-        type:String,
-        require:true,
+    il_adi: {
+        type: String,
+        required: true,
     },
-    barajlar:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Baraj",
-        require:false,
+    barajlar: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Baraj",
+        required: false,
     }]
-},{timestamps:true});
+}, { timestamps: true });
 
 const Il = mongoose.model('Il', IlSchema);
 

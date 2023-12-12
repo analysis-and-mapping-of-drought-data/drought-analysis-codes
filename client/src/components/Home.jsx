@@ -1,65 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TurkeyMap from "turkey-map-react";
 import { Modal, Button } from "react-bootstrap";
+import axios from 'axios';
 
-function Home(){
-
+function Home() {
   const [selectedCity, setSelectedCity] = useState(null);
+  const [iller, setIller] = useState([]);
+
+  useEffect(() => {
+    // İllerin verilerini çek
+    axios.get("http://localhost:3001/il")
+      .then((response) => setIller(response.data))
+      .catch((error) => console.error("Error fetching iller:", error));
+  }, []);
 
   const handleMapClick = (city) => {
-    setSelectedCity(city);
+    console.log("Şehir Kodu:", city.code);
+    const plaka = city.plateNumber; // Harita üzerinden gelen il kodu
+    // Haritadan bir şehire tıklandığında ilgili verileri çek
+    axios.get(`http://localhost:3001/il/${plaka}`)
+      .then((response) => {
+        const data = response.data;
+        if (data && data.plaka !== undefined) {
+          const apiPlaka = data.plaka;
+
+          // API'den gelen plaka kodu ile city.plateNumber'ın eşit olup olmadığını kontrol et
+          if (apiPlaka === plaka) {
+            // Şehir verilerini aldıktan sonra sit kontrolü yapabilirsiniz
+            if (data.sit) {
+              // Şehir sit olabilir
+              console.log(`${data.baraj_adi} şehri sit alanı içeriyor.`);
+              setSelectedCity(data); // Modal'ı aç
+            } else {
+              // Şehir sit değil
+              console.log(`${data.baraj_adi} şehri sit alanı içermiyor.`);
+              // Uyarı göster
+              alert(`${data.baraj_adi} şehri sit alanı içermiyor.`);
+            }
+          } else {
+            // Plaka kodları eşleşmiyor
+            console.log("Plaka kodları eşleşmiyor.");
+            // Uyarı göster
+            alert("Plaka kodları eşleşmiyor.");
+          }
+        } else {
+          console.error("Invalid data received:", data);
+        }
+      })
+      .catch((error) => console.error("Error fetching city data:", error));
   };
 
   const handleClose = () => {
     setSelectedCity(null);
   };
-    return (
-        <div>
 
-  {/* Sale & Revenue Start */}
-  <div className="container-fluid pt-4 px-4">
-    <div className="row g-4">
-      <div className="col-sm-6 col-xl-3">
-        <div className="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-          <i className="fa fa-chart-line fa-3x text-primary" />
-          <div className="ms-3">
-            <p className="mb-2">Toplam İL</p>
-            <h6 className="mb-0">81</h6>
-          </div>
+  return (
+    <div>
+      {/* Sale & Revenue Start */}
+      <div className="container-fluid pt-4 px-4">
+        <div className="row g-4">
+          {/* ... (diğer bileşenler) */}
         </div>
       </div>
-      <div className="col-sm-6 col-xl-3">
-        <div className="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-          <i className="fa fa-chart-bar fa-3x text-primary" />
-          <div className="ms-3">
-            <p className="mb-2">Toplam Baraj </p>
-            <h6 className="mb-0">352</h6>
-          </div>
-        </div>
-      </div>
-      <div className="col-sm-6 col-xl-3">
-        <div className="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-          <i className="fa fa-chart-area fa-3x text-primary" />
-          <div className="ms-3">
-            <p className="mb-2">Toplam Havza</p>
-            <h6 className="mb-0">25</h6>
-          </div>
-        </div>
-      </div>
-      <div className="col-sm-6 col-xl-3">
-        <div className="bg-secondary rounded d-flex align-items-center justify-content-between p-4">
-          <i className="fa fa-chart-pie fa-3x text-primary" />
-          <div className="ms-3">
-            <p className="mb-2">Tolam  Sulama Kaynak</p>
-            <h6 className="mb-0">7</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {/* Sale & Revenue End */}
- 
-      {/* Turkiye haritasi */}
+      {/* Sale & Revenue End */}
+
+      {/* Türkiye haritası */}
       <div style={{ width: "100%", height: "400px", background: "black" }}>
         <TurkeyMap
           hoverable={true}
@@ -72,11 +77,15 @@ function Home(){
       {/* Bootstrap Modal */}
       <Modal show={selectedCity !== null} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{selectedCity && selectedCity.name}</Modal.Title>
+          <Modal.Title>{selectedCity && selectedCity.plaka}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Şehir Kodu: {selectedCity && selectedCity.code}</p>
-          {/* İlgili diğer bilgileri buraya ekleyebilirsin */}
+          <p>Şehir Kodu: {selectedCity && selectedCity.plaka}</p>
+          {/* Diğer ilgili bilgileri buraya ekleyebilirsin */}
+          <p>Baraj Adı: {selectedCity && selectedCity.barajlar[0].baraj_adi}</p>
+          <p>Oran: {selectedCity && selectedCity.barajlar[0].oran}</p>
+          <p>Yıl: {selectedCity && selectedCity.barajlar[0].yil}</p>
+          {/* İl ile ilgili diğer bilgileri de benzer şekilde ekleyebilirsin */}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -84,10 +93,8 @@ function Home(){
           </Button>
         </Modal.Footer>
       </Modal>
- 
-
-
-        </div>
-    )
+    </div>
+  );
 }
-export default Home
+
+export default Home;

@@ -1,9 +1,8 @@
 const express = require('express');
-const route = express.Router();
+const router = express.Router();
 const ilController = require('../controllers/IllerController');
 
-route.get('/',ilController.getIller);
+router.get('/', ilController.getAllIller);
+router.get('/:plaka', ilController.getIlWithId);
 
-route.get('/:il_id',ilController.getIller);
-
-module.exports=route;
+module.exports = router;
