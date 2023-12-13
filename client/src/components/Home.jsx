@@ -15,27 +15,29 @@ function Home() {
   }, []);
 
   const handleMapClick = (city) => {
-    console.log("Şehir Kodu:", city.code);
+   
     const plaka = city.plateNumber; // Harita üzerinden gelen il kodu
     // Haritadan bir şehire tıklandığında ilgili verileri çek
     axios.get(`http://localhost:3001/il/${plaka}`)
       .then((response) => {
         const data = response.data;
+        
         if (data && data.plaka !== undefined) {
           const apiPlaka = data.plaka;
+
+          console.log("API'den gelen plaka kodu:", apiPlaka);
+          console.log("Haritadan gelen  plaka kodu:", plaka);
 
           // API'den gelen plaka kodu ile city.plateNumber'ın eşit olup olmadığını kontrol et
           if (apiPlaka === plaka) {
             // Şehir verilerini aldıktan sonra sit kontrolü yapabilirsiniz
             if (data.sit) {
               // Şehir sit olabilir
-              console.log(`${data.baraj_adi} şehri sit alanı içeriyor.`);
+              console.log(`${data.baraj_adi} şehri baraj içeriyor.`);
               setSelectedCity(data); // Modal'ı aç
             } else {
-              // Şehir sit değil
-              console.log(`${data.baraj_adi} şehri sit alanı içermiyor.`);
-              // Uyarı göster
-              alert(`${data.baraj_adi} şehri sit alanı içermiyor.`);
+              console.log(`${data.baraj_adi} şehri baraj içermiyor.`);
+              setSelectedCity(data); 
             }
           } else {
             // Plaka kodları eşleşmiyor

@@ -25,7 +25,7 @@ exports.getIlWithId = async (req, res) => {
             return res.status(404).json({ error: 'Il not found' });
         }
 
-        res.json();
+        res.json(il);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
