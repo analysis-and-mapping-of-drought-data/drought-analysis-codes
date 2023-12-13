@@ -15,6 +15,9 @@ app.use(parser.urlencoded({limit:"30mb", extends:true}));
 app.use(cors());
 app.use(express.json());
 
+dotenv.config();
+
+console.log('MONGO_URL:', process.env.MONGO_URL);
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
 })
