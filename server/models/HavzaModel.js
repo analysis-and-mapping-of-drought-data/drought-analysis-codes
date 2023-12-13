@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+//havzalar modeli oluşturuldu...
 const HavzaSchema= new mongoose.Schema({
     havza_adi: {
         type: String,
