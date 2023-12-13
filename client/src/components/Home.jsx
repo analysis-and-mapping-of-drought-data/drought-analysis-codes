@@ -6,50 +6,60 @@ import axios from 'axios';
 function Home() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [iller, setIller] = useState([]);
+  const [barajlar, setBarajlar] = useState([]);
 
   useEffect(() => {
-    // İllerin verilerini çek
     axios.get("http://localhost:3001/il")
       .then((response) => setIller(response.data))
       .catch((error) => console.error("Error fetching iller:", error));
   }, []);
 
   const handleMapClick = (city) => {
-   
-    const plaka = city.plateNumber; // Harita üzerinden gelen il kodu
-    // Haritadan bir şehire tıklandığında ilgili verileri çek
+    const plaka = city.plateNumber;
+
     axios.get(`http://localhost:3001/il/${plaka}`)
       .then((response) => {
         const data = response.data;
-        
+
         if (data && data.plaka !== undefined) {
           const apiPlaka = data.plaka;
 
-          console.log("API'den gelen plaka kodu:", apiPlaka);
-          console.log("Haritadan gelen  plaka kodu:", plaka);
-
-          // API'den gelen plaka kodu ile city.plateNumber'ın eşit olup olmadığını kontrol et
           if (apiPlaka === plaka) {
-            // Şehir verilerini aldıktan sonra sit kontrolü yapabilirsiniz
-            if (data.sit) {
-              // Şehir sit olabilir
-              console.log(`${data.baraj_adi} şehri baraj içeriyor.`);
-              setSelectedCity(data); // Modal'ı aç
+            if (data.barajlar && data.barajlar.length > 0) {
+              console.log(`${data.il_adi} şehrine ait barajlar ID'leri:`);
+              console.log(data.barajlar);
+
+              // Baraj id'lerini kullanarak detay verilerini al
+              Promise.all(data.barajlar.map(_id => getBarajDetails(_id)))
+                .then(barajDetails => {
+                  setBarajlar(barajDetails.filter(Boolean));
+                  setSelectedCity(data); // Modal'ı aç
+                })
+                .catch(error => console.error("Error fetching baraj details:", error));
             } else {
-              console.log(`${data.baraj_adi} şehri baraj içermiyor.`);
-              setSelectedCity(data); 
+              console.log('Şehir verileri boş.');
+              alert('kayit yok ');
+              setSelectedCity(data);
             }
           } else {
-            // Plaka kodları eşleşmiyor
             console.log("Plaka kodları eşleşmiyor.");
-            // Uyarı göster
             alert("Plaka kodları eşleşmiyor.");
           }
         } else {
-          console.error("Invalid data received:", data);
+          console.error("Geçersiz veri alındı:", data);
+          alert("Geçersiz veri alındı:", data);
         }
       })
       .catch((error) => console.error("Error fetching city data:", error));
+  };
+
+  const getBarajDetails = (_id) => {
+    return axios.get(`http://localhost:3001/baraj/${_id}`)
+      .then(response => response.data)
+      .catch(error => {
+        console.error(`Error fetching baraj details for id ${_id}:`, error);
+        return null;
+      });
   };
 
   const handleClose = () => {
@@ -58,13 +68,7 @@ function Home() {
 
   return (
     <div>
-      {/* Sale & Revenue Start */}
-      <div className="container-fluid pt-4 px-4">
-        <div className="row g-4">
-          {/* ... (diğer bileşenler) */}
-        </div>
-      </div>
-      {/* Sale & Revenue End */}
+      {/* ... (diğer bileşenler) */}
 
       {/* Türkiye haritası */}
       <div style={{ width: "100%", height: "400px", background: "black" }}>
@@ -84,9 +88,16 @@ function Home() {
         <Modal.Body>
           <p>Şehir Kodu: {selectedCity && selectedCity.plaka}</p>
           {/* Diğer ilgili bilgileri buraya ekleyebilirsin */}
-          <p>Baraj Adı: {selectedCity && selectedCity.barajlar[0].baraj_adi}</p>
-          <p>Oran: {selectedCity && selectedCity.barajlar[0].oran}</p>
-          <p>Yıl: {selectedCity && selectedCity.barajlar[0].yil}</p>
+          {selectedCity && selectedCity.barajlar.length > 0 && (
+            <div>
+              <p>Barajlar:</p>
+              <ul>
+                {selectedCity.barajlar.map((baraj, index) => (
+                  <li key={index}>{baraj}</li>
+                ))}
+              </ul>
+            </div>
+          )}
           {/* İl ile ilgili diğer bilgileri de benzer şekilde ekleyebilirsin */}
         </Modal.Body>
         <Modal.Footer>
