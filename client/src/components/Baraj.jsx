@@ -7,7 +7,7 @@ function Baraj() {
     const [data, setData] = useState([]);
   
     useEffect(() => {
-      axios.get('http://localhost:3001/api/barajlar')
+      axios.get('http://localhost:3001/baraj/year')
         .then(res => {
           console.log(res);
           setData(res.data); // res.data içinde doğrudan barajlar bulunuyor.
@@ -37,7 +37,6 @@ function Baraj() {
             <thead>
               <tr className="text-white">
                 <th scope="col">Baraj</th>
-                <th scope="col">il</th>
                 <th scope="col">2010</th>
                 <th scope="col">2011</th>
                 <th scope="col">2012</th>
@@ -55,8 +54,7 @@ function Baraj() {
             <tbody>
             {data.map((user, index) => (
               <tr key={index}>
-                <td>{user.name}</td>
-                <td>{user.il}</td>
+                <td>{user.baraj_adi}</td>
                 <td>{user.yil_2010}</td>
                 <td>{user.yil_2011}</td>
                 <td>{user.yil_2012}</td>
@@ -74,7 +72,7 @@ function Baraj() {
                   <button onClick={() => handleDelete(user._id)} className="btn btn-sm btn-danger">Delete</button>
                 </td>
               </tr>
-             ))}
+             ))} 
             </tbody>
           </table>
         </div>

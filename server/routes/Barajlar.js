@@ -8,6 +8,9 @@ router.get('/', barajController.getAllBarajlar);
 // Tüm barajları getir
 router.get('/', barajController.getBarajlar);
 
+//Barajlar düzenli
+router.get('/year', barajController.getBarajlarWithYear);
+
 // Id'ye göre barajı getir
 router.get('/:_id', barajController.getBarajlarWithId);
 
