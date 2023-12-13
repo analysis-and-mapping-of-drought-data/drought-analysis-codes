@@ -17,7 +17,7 @@ function Home() {
   const handleMapClick = (city) => {
     const plaka = city.plateNumber;
 
-    axios.get(`http://localhost:3001/il/${plaka}`)
+    axios.get(`http://localhost:3001/il/plaka/${plaka}`)
       .then((response) => {
         const data = response.data;
 
@@ -29,13 +29,16 @@ function Home() {
               console.log(`${data.il_adi} şehrine ait barajlar ID'leri:`);
               console.log(data.barajlar);
 
-              // Baraj id'lerini kullanarak detay verilerini al
+              setBarajlar(data.barajlar);
+              setSelectedCity(data);
+
+              /* // Baraj id'lerini kullanarak detay verilerini al
               Promise.all(data.barajlar.map(_id => getBarajDetails(_id)))
                 .then(barajDetails => {
                   setBarajlar(barajDetails.filter(Boolean));
                   setSelectedCity(data); // Modal'ı aç
                 })
-                .catch(error => console.error("Error fetching baraj details:", error));
+                .catch(error => console.error("Error fetching baraj details:", error)); */
             } else {
               console.log('Şehir verileri boş.');
               alert('kayit yok ');
@@ -53,14 +56,14 @@ function Home() {
       .catch((error) => console.error("Error fetching city data:", error));
   };
 
-  const getBarajDetails = (_id) => {
-    return axios.get(`http://localhost:3001/baraj/${_id}`)
-      .then(response => response.data)
+  /* const getBarajDetails = (_id) => {
+    return axios.get(`http://localhost:3001/baraj/groupby/${_id}`)
+      .then(response => response.data.baraj_adlari)
       .catch(error => {
         console.error(`Error fetching baraj details for id ${_id}:`, error);
         return null;
       });
-  };
+  }; */
 
   const handleClose = () => {
     setSelectedCity(null);

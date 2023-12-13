@@ -31,3 +31,33 @@ exports.getIlWithId = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+exports.getBarajlarWithPlaka = async (req, res) => {
+    try {
+        const ilId = req.params.plaka;
+
+        if (isNaN(Number(ilId))) {
+            return res.status(400).json({ error: 'gecersiz plaka degeri ' });
+        }
+
+        const il = await Il.findOne({ plaka: ilId }).populate({path:'barajlar', select:['baraj_adi']});
+
+        if (!il) {
+            return res.status(404).json({ error: 'Il not found' });
+        }
+
+        const baraj_adlari = [];
+
+        // Use forEach to iterate over barajlar and create a unique list
+        il.barajlar.forEach(baraj => {
+            if (!baraj_adlari.includes(baraj.baraj_adi)) {
+                baraj_adlari.push(baraj.baraj_adi);
+            }
+        });
+
+        res.json({il_adi:il.il_adi,plaka:il.plaka,barajlar:baraj_adlari});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error'});
+    }
+};

@@ -4,11 +4,14 @@ const dotenv = require('dotenv');
 const barajRoutes = require('./routes/Barajlar');
 const ilRoutes = require('./routes/Iller');
 const cors = require('cors');
+const parser = require('body-parser');
 
 dotenv.config();
 const app = express();
 const port = 3001;
 
+app.use(parser.json({limit:"30mb", extends:true})); 
+app.use(parser.urlencoded({limit:"30mb", extends:true}));
 app.use(cors());
 app.use(express.json());
 

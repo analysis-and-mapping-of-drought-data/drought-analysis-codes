@@ -1,4 +1,5 @@
 const Baraj=require('../models/BarajModel')
+const Il=require('../models/IlModel')
 
 exports.getBarajlar=async(req,res)=>{
     try{
@@ -64,16 +65,31 @@ exports.getBarajlarWithYear = async (req, res) => {
 
 
 exports.barajEkle=async(req,res)=>{
-    try{
-        const il = await il.findById(req.body._id);
-        if(!il){
-            res.status(400).json({error_message:'il bulunamadi!'})
+    try {
+        const ilId = req.body._id; // Change this line
+        console.log(ilId);
+        if (!ilId) {
+            return res.status(400).json({ error_message: 'Il id not provided in the request body' });
         }
-        const yenibaraj = new Baraj(req.body);
-        await yenibaraj.save();
+
+        const il = await Il.findById(ilId);
+
+        if (!il) {
+            return res.status(400).json({ error_message: 'Il not found' });
+        }
+
+        const yenibaraj = new Baraj({ il: ilId, ...req.body });
+
+        // Push the newly created baraj's _id to the il's barajlar array
+        il.barajlar.push(yenibaraj._id);
+
+        // Save both the il and the yeni baraj
+        await Promise.all([il.save(), yenibaraj.save()]);
+
         res.status(201).json(yenibaraj);
-    }catch(error){
-        res.status(400).json({hata:error.message});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ hata: error.message });
     }
 };
 
