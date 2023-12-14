@@ -84,7 +84,7 @@ function Home() {
       </div>
 
       {/* Bootstrap Modal */}
-      <Modal show={selectedCity !== null} onHide={handleClose}>
+      <Modal show={selectedCity !== null} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{selectedCity && selectedCity.plaka}</Modal.Title>
         </Modal.Header>

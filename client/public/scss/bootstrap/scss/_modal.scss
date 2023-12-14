@@ -34,6 +34,7 @@
 
 // Shell div to position the modal with bottom padding
 .modal-dialog {
+  max-width: 1000px!important;
   position: relative;
   width: auto;
   margin: $modal-dialog-margin;
