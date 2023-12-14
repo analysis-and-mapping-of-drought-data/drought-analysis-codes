@@ -7,19 +7,19 @@ const havzaController=require('../controllers/HavzalarController');
 // Tüm havzaları getir
 router.get('/', havzaController.getHavzalar);
 
-//havzalar düzenli
+// Havzalar düzenli
 router.get('/year', havzaController.getHavzalarWithYear);
 
-// havza_adi'ye göre havzayı getir
+// Havza_adi'ye göre havzayı getir
 router.get('/:havza_adi', havzaController.getHavzalarWithHavzaId);
 
 // Yeni havza ekle
 router.post('/add',havzaController.havzaEkle);
 
-//Guncellme
+// Havza Guncelleme
 router.put('/update/:id',havzaController.havzaGuncelle);
 
-// havzaSilme
+// Havza Silme
 router.delete('/del/:id',havzaController.havzaSil);
 
 module.exports=router;
