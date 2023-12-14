@@ -1,7 +1,7 @@
 const express=require('express')
 const router =express.Router();
 
-const sulamaController=require('../controllers/sulamalarController');
+const sulamaController=require('../controllers/sulamalarController.js');
 
 
 // Tüm sulamaları getir
