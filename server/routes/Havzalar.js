@@ -11,15 +11,15 @@ router.get('/', havzaController.getHavzalar);
 router.get('/year', havzaController.getHavzalarWithYear);
 
 // Havza_adi'ye göre havzayı getir
-router.get('/:havza_adi', havzaController.getHavzalarWithHavzaId);
+router.get('/:havzaId', havzaController.getHavzaById);
 
 // Yeni havza ekle
-router.post('/add',havzaController.havzaEkle);
+router.post('/add',havzaController.addHavza);
 
 // Havza Guncelleme
-router.put('/update/:id',havzaController.havzaGuncelle);
+router.put('/update/:id',havzaController.updateHavza);
 
 // Havza Silme
-router.delete('/del/:id',havzaController.havzaSil);
+router.delete('/del/:id',havzaController.deleteHavza);
 
 module.exports=router;
