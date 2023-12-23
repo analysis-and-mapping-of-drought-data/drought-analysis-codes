@@ -11,6 +11,9 @@ router.get('/', barajController.getBarajlar);
 //Barajlar düzenli
 router.get('/year', barajController.getBarajlarWithYear);
 
+//Baraj düzenli
+router.get('/year/:baraj_adi', barajController.getBarajlarWithYearByName);
+
 // Id'ye göre barajı getir
 router.get('/:_id', barajController.getBarajlarWithId);
 

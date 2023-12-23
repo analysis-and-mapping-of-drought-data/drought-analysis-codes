@@ -68,7 +68,7 @@ function Baraj() {
           Header:"Detay",
           accessor:"detay",
           Cell:({row})=>(
-            <button className="btn btn-primary">Detay</button>
+            <button className="btn btn-success"><Link to={`/baraj/detay/${row.original.baraj_adi}`} className="text-secondary">Detay</Link></button>
           )
         }
       ],

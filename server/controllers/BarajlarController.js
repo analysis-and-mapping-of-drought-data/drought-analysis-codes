@@ -36,9 +36,37 @@ exports.getBarajlarWithIlId=async(req,res)=>{
 
 exports.getBarajlarWithYear = async (req, res) => {
     try {
-        const barajlar = await Baraj.find().populate({ path: 'il', select: 'il_adi' });
+        const barajlar = await Baraj.find();
         
-        const grupVeri = [];
+        const grupVeri = []; //burası verileri döndüreceğimiz array.
+        const gruplandirilmisVeri = {};
+
+        barajlar.forEach(veriOge => {
+            const { baraj_adi, yil, oran } = veriOge;
+
+            if (!gruplandirilmisVeri[baraj_adi]) {
+                gruplandirilmisVeri[baraj_adi] = { baraj_adi };
+            }
+
+            const yilKey = (new Date(yil)).getFullYear().toString();
+            gruplandirilmisVeri[baraj_adi]["yil_" + yilKey] = oran;
+        });
+
+        for (const dam in gruplandirilmisVeri) {
+            grupVeri.push(gruplandirilmisVeri[dam]);
+        }
+
+        res.status(200).json(grupVeri);
+    } catch (error) {
+        res.status(500).json({ hata: error.message });
+    }
+}
+
+exports.getBarajlarWithYearByName = async (req, res) => {
+    try {
+        const barajlar = await Baraj.find({baraj_adi : req.params.baraj_adi});
+        
+        const grupVeri = []; //burası verileri döndüreceğimiz array.
         const gruplandirilmisVeri = {};
 
         barajlar.forEach(veriOge => {
