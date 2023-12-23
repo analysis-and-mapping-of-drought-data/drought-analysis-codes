@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Baraj from "./components/Baraj";
 import Footer from "./components/Footer";
 import BarajDetay from "./components/BarajDetay";
+import BarajChart from './components/BarajChart';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/baraj" element={<Baraj />} />
         <Route path="/baraj/detay/:baraj_adi" element={<BarajDetay />} />
+        <Route path="/baraj/chart/:baraj_adi" element={<BarajChart />} />
       </Routes>
       <Footer />
     </Router>

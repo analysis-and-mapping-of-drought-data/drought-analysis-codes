@@ -83,6 +83,20 @@ function Baraj() {
             </button>
           ),
         },
+        {
+          Header: 'chart',
+          accessor: 'chart',
+          Cell: ({ row }) => (
+            <button
+              className="btn btn-success"
+              onClick={() => setSelectedBaraj(row.original)}
+            >
+              <Link to={`/baraj/chart/${row.original.baraj_adi}`} className="text-secondary">
+                    Chart
+              </Link>
+            </button>
+          ),
+        },
       ],
       []
     );
