@@ -21,30 +21,16 @@ function BarajDetay() {
   }, [baraj_adi]);
 
   const formatData = (data) => {
-    const formattedData = {
-      labels: [],
-      datasets: [
-        {
-          label: 'Bar Chart Data',
-          data: [],
-          backgroundColor: 'rgba(255, 99, 132, 0.5)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-        },
-      ],
+    const labels = Object.keys(data[0]).filter((key) => key.startsWith('yil_'));
+    const values = labels.map((label) => data[0][label]);
+
+    return {
+      labels: labels.map((label) => label.substring(4)),
+      values: values,
     };
-
-    for (const key in data) {
-      if (key.startsWith('yil_')) {
-        formattedData.labels.push(parseInt(key.substring(4), 10));
-        formattedData.datasets[0].data.push(data[key]);
-      }
-    }
-
-    return formattedData;
   };
 
-  const getChartOptions = () => {
+  /* const getChartOptions = () => {
     return {
       scales: {
         x: { beginAtZero: true },
@@ -53,7 +39,21 @@ function BarajDetay() {
       responsive: true,
       maintainAspectRatio: false,
     };
-  };
+  }; */
+
+  const getChartOptions = () => ({
+    scales: { x: { beginAtZero: true }, y: { beginAtZero: true } },
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
+    },
+    width: 300,
+    height: 150,
+  });
 
   const getChartData = (label, data, backgroundColor, borderColor) => {
     return {
@@ -73,11 +73,9 @@ function BarajDetay() {
   const getBarChartData = () => {
     if (barajDetay) {
       const formattedData = formatData(barajDetay);
-      const { labels, datasets } = formattedData;
-
       const barChartData = getChartData(
-        labels,
-        datasets[0].data,
+        formattedData.labels,
+        formattedData.values,
         'rgba(255, 99, 132, 0.5)',
         'rgba(255, 99, 132, 1)'
       );
@@ -91,11 +89,9 @@ function BarajDetay() {
   const getLineChartData = () => {
     if (barajDetay) {
       const formattedData = formatData(barajDetay);
-      const { labels, datasets } = formattedData;
-
       const lineChartData = getChartData(
-        labels,
-        datasets[0].data,
+        formattedData.labels,
+        formattedData.values,
         'rgba(54, 162, 235, 0.5)',
         'rgba(54, 162, 235, 1)'
       );
@@ -109,11 +105,9 @@ function BarajDetay() {
   const getPieChartData = () => {
     if (barajDetay) {
       const formattedData = formatData(barajDetay);
-      const { labels, datasets } = formattedData;
-
       const pieChartData = getChartData(
-        labels,
-        datasets[0].data,
+        formattedData.labels,
+        formattedData.values,
         [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -139,11 +133,9 @@ function BarajDetay() {
   const getDoughnutChartData = () => {
     if (barajDetay) {
       const formattedData = formatData(barajDetay);
-      const { labels, datasets } = formattedData;
-
       const doughnutChartData = getChartData(
-        labels,
-        datasets[0].data,
+        formattedData.labels,
+        formattedData.values,
         [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -169,11 +161,9 @@ function BarajDetay() {
   const getRadarChartData = () => {
     if (barajDetay) {
       const formattedData = formatData(barajDetay);
-      const { labels, datasets } = formattedData;
-
       const radarChartData = getChartData(
-        labels,
-        datasets[0].data,
+        formattedData.labels,
+        formattedData.values,
         'rgba(255, 99, 132, 0.5)',
         'rgba(255, 99, 132, 1)'
       );
@@ -190,23 +180,23 @@ function BarajDetay() {
         <div>
           {/* 1. Bar Chart */}
           <h2>Bar Chart</h2>
-          <Bar data={getBarChartData()} />
+          <Bar data={getBarChartData()}/>
 
           {/* 2. Line Chart */}
           <h2>Line Chart</h2>
-          <Line data={getLineChartData()} />
+          <Line data={getLineChartData()}/>
 
           {/* 3. Pie Chart */}
           <h2>Pie Chart</h2>
-          <Pie data={getPieChartData()} />
+          <Pie data={getPieChartData()}/>
 
           {/* 4. Doughnut Chart */}
           <h2>Doughnut Chart</h2>
-          <Doughnut data={getDoughnutChartData()} />
+          <Doughnut data={getDoughnutChartData()}/>
 
           {/* 5. Radar Chart */}
           <h2>Radar Chart</h2>
-          <Radar data={getRadarChartData()} />
+          <Radar data={getRadarChartData()}/>
         </div>
       )}
     </div>
