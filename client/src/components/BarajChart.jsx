@@ -1,4 +1,3 @@
-// BarajChart.jsx
 import React, { useEffect, useRef } from 'react';
 import { Chart } from 'chart.js';
 
@@ -13,6 +12,10 @@ const BarajChart = ({ data }) => {
     const lineCtx = lineChartRef.current.getContext('2d');
     const doughnutCtx = doughnutChartRef.current.getContext('2d');
     const pieCtx = pieChartRef.current.getContext('2d');
+
+    if (!data) {
+      return; // Data yoksa işlemi sonlandır
+    }
 
     const barChart = new Chart(barCtx, {
       type: 'bar',

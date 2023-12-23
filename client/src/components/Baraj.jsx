@@ -11,6 +11,7 @@ function Baraj() {
   const [showModal, setShowModal] = useState(false);
 
 
+
     const columns = useMemo(
       () => [
         {
@@ -89,18 +90,16 @@ function Baraj() {
           Cell: ({ row }) => (
             <button
               className="btn btn-success"
-              onClick={() => setSelectedBaraj(row.original)}
+              onClick={() => handleChartButtonClick(row)}
             >
-              <Link to={`/baraj/chart/${row.original.baraj_adi}`} className="text-secondary">
-                    Chart
-              </Link>
+              Chart
             </button>
           ),
         },
       ],
       []
     );
-    
+  
     const {
       getTableProps,
       getTableBodyProps,
@@ -143,6 +142,11 @@ function Baraj() {
       setShowModal(false);
     };
   
+    const handleChartButtonClick = (row) => {
+      setSelectedBaraj(row.original);
+      setShowModal(true);
+    };
+  
     useEffect(() => {
       if (selectedBaraj) {
         setShowModal(true);
@@ -152,19 +156,6 @@ function Baraj() {
     return (
       <div className="container-fluid pt-4 px-4">
         <div className="bg-secondary text-center rounded p-4">
-          <Modal show={showModal} onHide={handleModalClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Detaylar</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {selectedBaraj && <BarajChart data={selectedBaraj} />}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleModalClose}>
-                Kapat
-              </Button>
-            </Modal.Footer>
-          </Modal>
           <div>
             <div className="table-responsive">
               <table
@@ -215,6 +206,19 @@ function Baraj() {
             </div>
           </div>
         </div>
+        <Modal show={showModal} onHide={handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Detaylar</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {selectedBaraj && <BarajChart data={selectedBaraj} />}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleModalClose}>
+              Kapat
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
