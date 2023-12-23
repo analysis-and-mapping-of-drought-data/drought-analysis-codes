@@ -1,7 +1,6 @@
 import React from 'react';
-
-
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Baraj from "./components/Baraj";
@@ -14,14 +13,14 @@ function App() {
       <Header />
       <Routes>
         <Route path="/baraj" element={<Baraj />} />
-        {/* Diğer rotaları ekleyin */}
         <Route path="/" element={<Home />} />
-        {/* <Route path="/baraj/detay/:baraj_adi" render={(props) => <BarajDetay BarajDetay={BarajDetay} {...props} /> } element={<BarajDetay />} /> */}
-        <Route path="/baraj/detay/:baraj_adi" element={<BarajDetay BarajDetay={BarajDetay} />}/>
+        <Route path="/baraj" element={<Baraj />} />
+        <Route path="/baraj/detay/:baraj_adi" element={<BarajDetay />} />
       </Routes>
       <Footer />
     </Router>
   );
 }
 
+ReactDOM.render(<App />, document.getElementById('root'));
 export default App;

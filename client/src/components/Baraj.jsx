@@ -1,11 +1,15 @@
-import axios from "axios";
 import React, { useEffect, useState, useMemo } from 'react';
-import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import { useTable , usePagination } from 'react-table';
+import { useTable, usePagination } from 'react-table';
+import axios from 'axios';
+import { Modal, Button } from 'react-bootstrap';
+import BarajChart from './BarajChart';
+import { Link } from 'react-router-dom';
 
 function Baraj() {
-    
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
+  const [selectedBaraj, setSelectedBaraj] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
 
     const columns = useMemo(
       () => [
@@ -14,8 +18,9 @@ function Baraj() {
           accessor:"index"
         },
         {
-          Header: "Baraj",
-          accessor: "baraj_adi",
+          Header: 'adı',
+          accessor: 'baraj_adi',
+          
         },
         {
           Header: "2010",
@@ -65,12 +70,19 @@ function Baraj() {
           Header: "2021",
           accessor: "yil_2021",
         },{
-          Header:"Detay",
-          accessor:"detay",
-          Cell:({row})=>(
-            <button className="btn btn-success"><Link to={`/baraj/detay/${row.original.baraj_adi}`} className="text-secondary">Detay</Link></button>
-          )
-        }
+          Header: 'Detay',
+          accessor: 'detay',
+          Cell: ({ row }) => (
+            <button
+              className="btn btn-success"
+              onClick={() => setSelectedBaraj(row.original)}
+            >
+              <Link to={`/baraj/detay/${row.original.baraj_adi}`} className="text-secondary">
+                Detay
+              </Link>
+            </button>
+          ),
+        },
       ],
       []
     );
@@ -85,14 +97,12 @@ function Baraj() {
       canNextPage,
       pageOptions,
       pageCount,
-      gotoPage,
       nextPage,
       previousPage,
-      setPageSize,
-      state: { pageIndex, pageSize },
+      state: { pageIndex },
     } = useTable(
       {
-        columns, // Change 'column' to 'columns'
+        columns,
         data,
         initialState: { pageIndex: 0, pageSize: 10 },
       },
@@ -100,55 +110,99 @@ function Baraj() {
     );
   
     useEffect(() => {
-      axios.get('http://localhost:3001/baraj/year')
-        .then(res => {
+      axios
+        .get('http://localhost:3001/baraj/year')
+        .then((res) => {
           const indexedData = res.data.map((item, index) => ({ ...item, index: index + 1 }));
-          setData(indexedData); // res.data içinde doğrudan barajlar bulunuyor.
+          setData(indexedData);
         })
-        .catch(err => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     }, []);
-
-  return (
-    <div className="container-fluid pt-4 px-4">
-      <div className="bg-secondary text-center rounded p-4">
-        <div className="d-flex align-items-center justify-content-between mb-4">
-          <h6 className="mb-0">Recent Barajs</h6>
-        </div>
-        <div className="table-responsive">
-          <table {...getTableProps()} className="table text-start align-middle table-bordered table-hover mb-0">
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((columns) => (
-                    <th {...columns.getHeaderProps()}>{columns.render("Header")}</th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {page.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div className="mt-3">
-            <button className="btn btn-secondary" onClick={()=>previousPage()} disabled={!canPreviousPage}>Prev</button>
-            <button className="btn btn-secondary" onClick={()=>nextPage()} disabled={!canNextPage}>Next</button>
-          </div>
+  
+    const handleModalShow = () => {
+      setSelectedBaraj(null);
+    };
+  
+    const handleModalClose = () => {
+      setShowModal(false);
+    };
+  
+    useEffect(() => {
+      if (selectedBaraj) {
+        setShowModal(true);
+      }
+    }, [selectedBaraj]);
+  
+    return (
+      <div className="container-fluid pt-4 px-4">
+        <div className="bg-secondary text-center rounded p-4">
+          <Modal show={showModal} onHide={handleModalClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Detaylar</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {selectedBaraj && <BarajChart data={selectedBaraj} />}
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleModalClose}>
+                Kapat
+              </Button>
+            </Modal.Footer>
+          </Modal>
           <div>
-              Page {pageIndex + 1} of {pageOptions.length}
+            <div className="table-responsive">
+              <table
+                {...getTableProps()}
+                className="table text-start align-middle table-bordered table-hover mb-0"
+              >
+                <thead>
+                  {headerGroups.map((headerGroup) => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((columns) => (
+                        <th {...columns.getHeaderProps()}>{columns.render('Header')}</th>
+                      ))}
+                    </tr>
+                  ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                  {page.map((row) => {
+                    prepareRow(row);
+                    return (
+                      <tr {...row.getRowProps()}>
+                        {row.cells.map((cell) => (
+                          <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              <div className="mt-3">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => previousPage()}
+                  disabled={!canPreviousPage}
+                >
+                  Prev
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => nextPage()}
+                  disabled={!canNextPage}
+                >
+                  Next
+                </button>
+              </div>
+              <div>
+                Page {pageIndex + 1} of {pageOptions.length}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-export default Baraj;
+    );
+  }
+  
+  export default Baraj;
