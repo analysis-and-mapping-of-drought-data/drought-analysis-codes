@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import TurkeyMap from "turkey-map-react";
 import { Modal, Button } from "react-bootstrap";
 import axios from 'axios';
+import SulamaChart from "./SulamaChart";
 
 function Home() {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -93,7 +94,7 @@ function Home() {
               </ul>
             </div>
           )}
-          {/* İl ile ilgili diğer bilgileri de benzer şekilde ekleyebilirsin */}
+          {selectedCity && <SulamaChart data={selectedCity.plaka} />}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

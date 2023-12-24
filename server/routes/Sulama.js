@@ -13,6 +13,9 @@ router.get('/', sulamaController.getAll);
 // Sulama_id'ye göre sulamayı getir
 router.get('/:_id', sulamaController.getById);
 
+// Sulama_id'ye göre sulamayı getir
+router.get('/plaka/:plaka', sulamaController.getSulamaByPlaka);
+
 // il_id'ye göre sulamayı getir
 router.get('/:il_id', sulamaController.getSulamaByIlId);
 

@@ -23,12 +23,22 @@ exports.getById = async (req, res) => {
 
 exports.getSulamaByIlId = async (req, res) => {
   try {
-    const sulamaVerileri = await Sulama.find({ il: req.params.il_id });
+    const sulamaVerileri = await Sulama.findOne({ il: req.params.il_id });
     res.status(200).json(sulamaVerileri);
   } catch (error) {
     res.status(500).json({ hata: error.message });
   }
 };
+
+exports.getSulamaByPlaka = async (req, res) => {
+  try {
+    const sulamaVerileri = await Sulama.findOne({ plaka: req.params.plaka });
+    res.status(200).json(sulamaVerileri);
+  } catch (error) {
+    res.status(500).json({ hata: error.message });
+  }
+};
+
 
 //İlişkisel yapı için
 /* exports.createIliskisel = async (req, res) => {
