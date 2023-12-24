@@ -14,7 +14,12 @@ const IlSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Baraj",
         required: false,
-    }]
+    }],
+    sulama:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Sulama",
+        required: false,
+    }
 }, { timestamps: true });
 
 const Il = mongoose.model('Il', IlSchema);

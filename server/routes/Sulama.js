@@ -5,21 +5,24 @@ const sulamaController=require('../controllers/sulamalarController.js');
 
 
 // Tüm sulamaları getir
-router.get('/', sulamaController.getsulamalar);
+router.get('/', sulamaController.getAll);
 
-// Sulamalar düzenleme
-router.get('/year', sulamaController.getsulamalarWithYear);
+//İlişkisel yapı için
+//router.get('/create', sulamaController.createIliskisel);
 
 // Sulama_id'ye göre sulamayı getir
-router.get('/:sulama_adi', sulamaController.getsulamalarWithsulamaId);
+router.get('/:_id', sulamaController.getById);
+
+// il_id'ye göre sulamayı getir
+router.get('/:il_id', sulamaController.getSulamaByIlId);
 
 // Yeni sulama ekle
-router.post('/add',sulamaController.sulamaEkle);
+router.post('/add',sulamaController.addSulama);
 
 // Sulama Guncelleme
-router.put('/update/:id',sulamaController.sulamaGuncelle);
+router.put('/update/:id',sulamaController.updateSulama);
 
 // Sulama Silme
-router.delete('/del/:id',sulamaController.sulamaSil);
+router.delete('/del/:id',sulamaController.deleteSulama);
 
 module.exports=router;

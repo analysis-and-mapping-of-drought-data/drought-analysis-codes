@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const barajRoutes = require('./routes/Barajlar');
 const ilRoutes = require('./routes/Iller');
+const sulamaRoutes = require('./routes/Sulama');
 const cors = require('cors');
 const parser = require('body-parser');
 
@@ -26,6 +27,7 @@ mongoose.connect(process.env.MONGO_URL, {
 
 app.use('/baraj', barajRoutes);
 app.use('/il', ilRoutes);
+app.use('/sulama', sulamaRoutes);
 
 app.listen(port, () => {
     console.log(`Server is listening on ${port}.`);

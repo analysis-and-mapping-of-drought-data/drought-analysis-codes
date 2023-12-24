@@ -1,15 +1,53 @@
 // SulamaController.js
 
 const Sulama = require('../models/SulamaModel');
+const Il = require('../models/SulamaModel');
 
-exports.getSulamaByBarajId = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
-    const sulamaVerileri = await Sulama.find({ baraj: req.params.barajId });
+    const sulamaVerileri = await Sulama.find();
     res.status(200).json(sulamaVerileri);
   } catch (error) {
     res.status(500).json({ hata: error.message });
   }
 };
+
+exports.getById = async (req, res) => {
+  try {
+    const sulamaVerileri = await Sulama.findById(req.params._id);
+    res.status(200).json(sulamaVerileri);
+  } catch (error) {
+    res.status(500).json({ hata: error.message });
+  }
+};
+
+exports.getSulamaByIlId = async (req, res) => {
+  try {
+    const sulamaVerileri = await Sulama.find({ il: req.params.il_id });
+    res.status(200).json(sulamaVerileri);
+  } catch (error) {
+    res.status(500).json({ hata: error.message });
+  }
+};
+
+//İlişkisel yapı için
+/* exports.createIliskisel = async (req, res) => {
+  try {
+    const sulamaVerileri = await Sulama.find();
+
+    for (const item of sulamaVerileri) {
+      const il = await Il.findOne({ plaka: item.plaka }); // findOne kullanmalısınız, çünkü bir il bekliyorsunuz
+      il.sulama = item._id;
+      item.il = il._id;
+      await item.save();
+      await il.save();
+    }
+
+    res.status(200).json(sulamaVerileri);
+  } catch (error) {
+    res.status(500).json({ hata: error.message });
+  }
+}; */
 
 exports.addSulama = async (req, res) => {
   try {
