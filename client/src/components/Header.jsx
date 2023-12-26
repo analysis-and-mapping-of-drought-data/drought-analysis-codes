@@ -24,10 +24,10 @@ function Header() {
           </div>
         </Link>
 
-        <Link to="/sulama" className="navbar-brand mx-auto" style={navLinkStyle}>
+        <Link to="/havza" className="navbar-brand mx-auto" style={navLinkStyle}>
           <div className="rounded-pill p-2 border border-secondary">
             <span className="bi bi-irrigation text-primary me-2"></span>
-            <span className="text-primary">Sulama Verileri</span>
+            <span className="text-primary">Havzalar</span>
           </div>
         </Link>
 
