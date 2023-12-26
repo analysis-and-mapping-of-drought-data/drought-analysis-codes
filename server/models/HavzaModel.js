@@ -5,16 +5,16 @@ const HavzaSchema= new mongoose.Schema({
         type: String,
         required: true,
     },
-    havza_yagisAlani: {
+    havza_yagis: {
         type: Number,
         required: true,
     },
-    baraj_dolulukOrani:{
+    havza_baraj:{
         type :Number,
         required :true,
     },
-    yil:{
-        type :Number,
+    havza_yil:{
+        type :Date,
         required :true,
     },
     

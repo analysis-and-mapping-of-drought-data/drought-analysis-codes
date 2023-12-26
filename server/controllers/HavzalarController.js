@@ -62,3 +62,45 @@ exports.deleteHavza = async (req, res) => {
     res.status(500).json({ hata: error.message });
   }
 };
+
+exports.getHavzalarWithYearByName = async (req, res) => {
+  try {
+    const havzalar = await Havza.find({ havza_adi: req.params.havza_adi });
+    const gruplandirilmisVeri = {};
+
+    havzalar.forEach(veriOge => {
+      const { havza_adi, havza_yil, havza_yagis, havza_baraj } = veriOge;
+
+      if (!gruplandirilmisVeri[havza_adi]) {
+        gruplandirilmisVeri[havza_adi] = { havza_adi };
+      }
+
+      const havza_yilKey = (new Date(havza_yil)).getFullYear().toString();
+      gruplandirilmisVeri[havza_adi]["havza_yil_" + havza_yilKey] = havza_baraj;
+      gruplandirilmisVeri[havza_adi]["havza_yil_" + havza_yilKey + "_yagis"] = havza_yagis;
+    });
+
+    const grupVeri = Object.values(gruplandirilmisVeri);
+
+    // Gerekirse, eksik yılları eklemek için aşağıdaki blok eklenmiştir.
+    
+    grupVeri.forEach(ogr => {
+      // Tüm yılları kapsayan bir döngü
+      for (let yilKey in ogr) {
+        // Yıl anahtarlarını kontrol et
+        if (yilKey.startsWith("havza_yil_")) {
+          const yilYagisKey = yilKey + "_yagis";
+          if (!ogr[yilKey]) {
+            ogr[yilKey] = null;
+            ogr[yilYagisKey] = null;
+          }
+        }
+      }
+    });
+
+    res.status(200).json(grupVeri);
+  } catch (error) {
+    res.status(500).json({ hata: error.message });
+  }
+};
+
