@@ -7,9 +7,6 @@ const havzaController=require('../controllers/HavzalarController');
 // Tüm havzaları getir
 router.get('/', havzaController.getHavzalar);
 
-// Havzalar düzenli
-router.get('/year', havzaController.getHavzalarWithYear);
-
 // Havza_adi'ye göre havzayı getir
 router.get('/:havzaId', havzaController.getHavzaById);
 
