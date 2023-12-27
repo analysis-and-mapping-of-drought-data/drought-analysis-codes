@@ -19,7 +19,7 @@ router.put('/update/:id',havzaController.updateHavza);
 // Havza Silme
 router.delete('/del/:id',havzaController.deleteHavza);
 
-router.get('/name/:havza_adi', havzaController.getHavzalarWithYearByName);
+router.get('/get/year', havzaController.getHavzalarWithYearByName);
 
 
 module.exports=router;

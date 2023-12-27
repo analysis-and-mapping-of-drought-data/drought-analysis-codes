@@ -65,42 +65,31 @@ exports.deleteHavza = async (req, res) => {
 
 exports.getHavzalarWithYearByName = async (req, res) => {
   try {
-    const havzalar = await Havza.find({ havza_adi: req.params.havza_adi });
-    const gruplandirilmisVeri = {};
+      const havzalar = await Havza.find({});
 
-    havzalar.forEach(veriOge => {
-      const { havza_adi, havza_yil, havza_yagis, havza_baraj } = veriOge;
+      const grupVeri = []; // Verileri döndüreceğimiz array.
+      const gruplandirilmisVeri = {};
 
-      if (!gruplandirilmisVeri[havza_adi]) {
-        gruplandirilmisVeri[havza_adi] = { havza_adi };
-      }
+      havzalar.forEach(veriOge => {
+          const { havza_adi, havza_yil, havza_baraj, havza_yagis } = veriOge;
 
-      const havza_yilKey = (new Date(havza_yil)).getFullYear().toString();
-      gruplandirilmisVeri[havza_adi]["havza_yil_" + havza_yilKey] = havza_baraj;
-      gruplandirilmisVeri[havza_adi]["havza_yil_" + havza_yilKey + "_yagis"] = havza_yagis;
-    });
-
-    const grupVeri = Object.values(gruplandirilmisVeri);
-
-    // Gerekirse, eksik yılları eklemek için aşağıdaki blok eklenmiştir.
-    
-    grupVeri.forEach(ogr => {
-      // Tüm yılları kapsayan bir döngü
-      for (let yilKey in ogr) {
-        // Yıl anahtarlarını kontrol et
-        if (yilKey.startsWith("havza_yil_")) {
-          const yilYagisKey = yilKey + "_yagis";
-          if (!ogr[yilKey]) {
-            ogr[yilKey] = null;
-            ogr[yilYagisKey] = null;
+          if (!gruplandirilmisVeri[havza_adi]) {
+              gruplandirilmisVeri[havza_adi] = { havza_adi };
           }
-        }
-      }
-    });
 
-    res.status(200).json(grupVeri);
+          const yilKey = (new Date(havza_yil)).getFullYear().toString();
+          gruplandirilmisVeri[havza_adi]["yil_" + yilKey] = havza_baraj;
+          gruplandirilmisVeri[havza_adi]["yil_" + yilKey + "_yagis"] = havza_yagis;
+      });
+
+      for (const havza_adi in gruplandirilmisVeri) {
+          grupVeri.push(gruplandirilmisVeri[havza_adi]);
+      }
+
+      res.status(200).json(grupVeri);
   } catch (error) {
-    res.status(500).json({ hata: error.message });
+      res.status(500).json({ hata: error.message });
   }
 };
+
 
