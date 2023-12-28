@@ -1,8 +1,8 @@
+
 import React, { useEffect, useState, useMemo } from 'react';
 import { useTable, usePagination, useSortBy } from 'react-table';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 
 function Havzalar() {
   const [data, setData] = useState([]);
@@ -12,20 +12,23 @@ function Havzalar() {
   const columns = useMemo(
     () => [
       {
-        Header: 'Havza',
-        accessor: 'Havza', 
+        Header: 'Havza Adı',
+        accessor: 'havza_adi',
       },
       {
-        Header: 'Column 1',
-        accessor: 'column1', 
+        Header: 'Yıl',
+        accessor: 'havza_yil',
       },
       {
-        Header: 'Column 2',
-        accessor: 'column2',
+        Header: 'Baraj',
+        accessor: 'havza_baraj',
       },
-      
+      {
+        Header: 'Yağış',
+        accessor: 'havza_yagis',
+      },
     ],
-    [] 
+    []
   );
 
   const {
@@ -53,22 +56,23 @@ function Havzalar() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3001/havza/year')
+      .get('http://localhost:3001/havza/')
       .then((res) => {
-        const indexedData = res.data.map((item, index) => ({ ...item, index: index + 1 }));
-        setData(indexedData);
+        setData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);   
+  }, []);
 
   const handleModalClose = () => {
     setShowModal(false);
   };
+
   const handleChartButtonClick = (row) => {
     setSelectedHavza(row.original);
     setShowModal(true);
+   
   };
 
   return (
@@ -84,7 +88,12 @@ function Havzalar() {
                 {headerGroups.map((headerGroup) => (
                   <tr {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.map((columns) => (
-                      <th {...columns.getHeaderProps()}>{columns.render('Header')}</th>
+                      <th {...columns.getHeaderProps(columns.getSortByToggleProps())}>
+                        {columns.render('Header')}
+                        <span>
+                          {columns.isSorted ? (columns.isSortedDesc ? ' 🔽' : ' 🔼') : ''}
+                        </span>
+                      </th>
                     ))}
                   </tr>
                 ))}
@@ -95,9 +104,7 @@ function Havzalar() {
                   return (
                     <tr key={row.id} {...row.getRowProps()}>
                       {row.cells.map((cell) => (
-                        <td key={cell.column.id} {...cell.getCellProps()}>
-                          {cell.render('Cell')}
-                        </td>
+                        <td key={cell.column.id}>{cell.render('Cell')}</td>
                       ))}
                     </tr>
                   );
@@ -130,6 +137,10 @@ function Havzalar() {
         <Modal.Header closeButton>
           <Modal.Title>Detaylar</Modal.Title>
         </Modal.Header>
+        <Modal.Body>
+        
+
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleModalClose}>
             Kapat
