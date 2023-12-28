@@ -28,6 +28,7 @@ def askChat():
 
     return jsonify({response:response.choices[0].text})
 
+
 @app.route("/ml", methods=["GET"])
 def ml():
     try:
@@ -48,23 +49,24 @@ def ml():
             with open(f'{baraj_adi}.csv', 'w') as file:
                 file.write(csv_data)
 
-        df = pd.read_csv(f'{baraj_adi}.csv', delimiter=',')
+        df = pd.read_csv(f'{baraj_adi}.csv')
 
-        X = df.drop(['baraj_adi'], axis=1)
-        y = df['baraj_adi']
+        #X = df.drop(['baraj_adi'], axis=1)
+        X = df.iloc[0, 1:7].values
+        y = df.iloc[0, 7:13].values
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+        y = pd.DataFrame(y)
+        X = pd.DataFrame(X)
+        
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
 
         model = LinearRegression()
 
         model.fit(X_train, y_train)
 
         y_pred = model.predict(X_test)
-
-        mse = mean_squared_error(y_test, y_pred)
-        r2 = r2_score(y_test, y_pred)
-
-        return jsonify({"r2 score": r2})
+        print(y)
+        return jsonify({"basarili"})
 
     except requests.exceptions.RequestException as e:
         # Handle request exceptions
